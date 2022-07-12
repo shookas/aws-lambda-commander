@@ -8,7 +8,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "test"
+    "test-watch": "jest --watch",
+    "test": "jest"
   },
   "author": "shookas",
   "license": "ISC",
@@ -18,7 +19,10 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.101",
+    "@types/jest": "^28.1.4",
     "@types/node": "^18.0.3",
+    "jest": "^28.1.2",
+    "ts-jest": "^28.0.5",
     "typescript": "^4.7.4"
   }
 }

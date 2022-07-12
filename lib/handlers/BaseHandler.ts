@@ -1,3 +1,4 @@
+import { APIGatewayProxyResult } from 'aws-lambda';
 import { FromEnvironment } from '../configuration/from-environment';
 import { BaseError } from '../errors/errors';
 import { LambdaLogger } from '../logging/LambdaLogger';
@@ -16,7 +17,7 @@ export class BaseHandler<Input, Output> implements ProxyHandler {
         'X-Content-Type-Options': 'nosniff',
         // Cache Control Headers
         'Cache-Control': 'no-cache, no-store, must-revalidate',
-        Pragma: 'no - cache',
+        Pragma: 'no-cache',
     };
     private inputValidators: Array<Commander.Validator<Input>> = [];
     private outputValidators: Array<Commander.Validator<Output>> = [];
@@ -46,7 +47,7 @@ export class BaseHandler<Input, Output> implements ProxyHandler {
     // Using an instance function here rather than a prototype method
     // to avoid 'this' getting lost
     // (https://github.com/Microsoft/TypeScript/wiki/'this'-in-TypeScript)
-    handle: AWSLambda.ProxyHandler = async (event, context) => {
+    handle: AWSLambda.ProxyHandler = async (event, context): Promise<APIGatewayProxyResult> => {
         // If this is a CORS request then handle it
         if (event.httpMethod === 'OPTIONS') {
             this.Logger.Information('OPTIONS request');
@@ -116,8 +117,8 @@ export class BaseHandler<Input, Output> implements ProxyHandler {
             // There's something not right here - a number of methods on management stack don't have CORS_VALID_METHODS set.
             // Therefore they return just OPTIONS, however the subsequent POSTS Succeed (?!)
             // TODO: Needs more investigation
-            headers['Access-Control-Allow-Methods'] = FromEnvironment('CORS_VALID_METHODS') ? FromEnvironment('CORS_VALID_METHODS') :
-                headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, livestream-authorization';
+            headers['Access-Control-Allow-Methods'] = FromEnvironment('CORS_VALID_METHODS') ? FromEnvironment('CORS_VALID_METHODS') : 'OPTIONS';
+            headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, livestream-authorization';
             headers['Access-Control-Max-Age'] = '600';
             headers.Vary = 'Origin';
         }

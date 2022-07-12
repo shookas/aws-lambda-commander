@@ -2,7 +2,7 @@ export abstract class BaseError extends Error {
     abstract get ErrorType(): string;
 
     abstract GenerateResponse(headers: Commander.Web.Headers): AWSLambda.ProxyResult;
-    constructor(message?: string) {
+    constructor(message?: string,) {
         super(message);
     }
     toString(): string {
@@ -64,9 +64,13 @@ export class InputValidationError extends BaseError {
 
 }
 
-export class HttpRequestError extends BaseError {
+export class HttpRequestError extends BaseError implements AWS.AWSError {
+    time: Date;
+    code: string;
     constructor(readonly statusCode: number, readonly method: string, message?: string) {
-        super(message)
+        super(message);
+        this.code = statusCode.toString();
+        this.time = new Date(Date.now());
     }
     get ErrorType() {
         return 'ERROR';
