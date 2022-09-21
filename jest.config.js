@@ -4,5 +4,7 @@ module.exports = {
   testEnvironment: 'node',
   moduleNameMapper: {
     "@commander/(.*)": "<rootDir>/lib/$1"
-  }
+  },
+  collectCoverage: true,
+  collectCoverageFrom: ['./lib/**/*.(js|ts)', '!./lib/types/**/*.ts'],
 };
