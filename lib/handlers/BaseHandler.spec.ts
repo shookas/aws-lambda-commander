@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 
-import { BaseError } from '@commander/errors/Errors';
+import { BaseError } from '@commander/errors/errors';
 import { Command } from './Command';
 import { BaseHandler } from './BaseHandler';
 import { LambdaLogger } from '@commander/logging/LambdaLogger';

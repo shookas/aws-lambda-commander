@@ -1,4 +1,4 @@
-import { HttpRequestError } from "@commander/errors/Errors";
+import { HttpRequestError } from "@commander/errors/errors";
 import AWS = require("aws-sdk");
 import { DynamoRepository } from "./DynamoRepository";
 

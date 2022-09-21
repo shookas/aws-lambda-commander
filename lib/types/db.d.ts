@@ -18,7 +18,5 @@ export namespace Db {
         phoneNumber?: string;
         position?: string;
         claims: string[];
-        subscriptions: string[];
-        issuer: string;
     }
 }
